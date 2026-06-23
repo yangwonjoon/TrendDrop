@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrendDrop Research Docs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero docs-hero">
+      <nav class="topbar">
+        <div class="brand">
+          <span class="brand-mark">TD</span>
+          <div>
+            <p class="brand-name">TrendDrop</p>
+            <p class="brand-sub">Research library</p>
+          </div>
+        </div>
+        <a class="ghost-button link-button" href="index.html">홈으로 돌아가기</a>
+      </nav>
+
+      <section class="hero-grid docs-hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">PROJECT NOTES</p>
+          <h1>정리해둔 기획 문서를 브라우저에서 바로 읽는 공간</h1>
+          <p class="hero-text">
+            TrendDrop 리서치와 서비스 방향 문서를 웹에서 바로 열 수 있게 정리했습니다.
+            이후 PRD, MVP TODO, 경쟁사 분석도 같은 방식으로 계속 추가할 수 있습니다.
+          </p>
+        </div>
+
+        <aside class="pulse-panel docs-list-panel">
+          <div class="pulse-header">
+            <p>문서 목록</p>
+            <span id="docCount">1 file</span>
+          </div>
+          <div class="doc-list" id="docList"></div>
+        </aside>
+      </section>
+    </header>
+
+    <main class="dashboard">
+      <section class="panel docs-panel">
+        <div class="panel-heading docs-panel-heading">
+          <div>
+            <p class="section-kicker">DOCUMENT VIEWER</p>
+            <h2 id="docTitle">문서를 불러오는 중...</h2>
+          </div>
+          <a class="secondary-button link-button" id="rawDocLink" href="docs/trend-services-research.md" target="_blank" rel="noreferrer">
+            원본 MD 열기
+          </a>
+        </div>
+        <article class="markdown-body" id="docContent"></article>
+      </section>
+    </main>
+  </div>
+
+  <script src="docs.js"></script>
+</body>
+</html>
