@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrendDrop Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero">
+      <nav class="topbar">
+        <div class="brand">
+          <span class="brand-mark">TD</span>
+          <div>
+            <p class="brand-name">TrendDrop</p>
+            <p class="brand-sub">Social spike tracker</p>
+          </div>
+        </div>
+        <button class="ghost-button">실시간 피드 연결 준비중</button>
+      </nav>
+
+      <section class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">FAST WEB APP PROTOTYPE</p>
+          <h1>SNS에서 막 치솟는 관심사를 한눈에 모아보는 트렌드 허브</h1>
+          <p class="hero-text">
+            TrendDrop은 인스타그램, 페이스북, 커뮤니티, 숏폼 채널에서 반응이 급증하는 키워드를 모아
+            왜 뜨는지와 얼마나 빠르게 확산되는지까지 보여주는 웹앱을 목표로 합니다.
+          </p>
+          <div class="hero-actions">
+            <button class="primary-button">트렌드 둘러보기</button>
+            <button class="secondary-button">서비스 방향 메모</button>
+          </div>
+        </div>
+
+        <aside class="pulse-panel">
+          <div class="pulse-header">
+            <p>오늘의 급상승 감지</p>
+            <span>Live Mock</span>
+          </div>
+          <div class="pulse-score">
+            <strong>87</strong>
+            <p>확산 강도</p>
+          </div>
+          <ul class="pulse-list">
+            <li><span>뷰티</span><strong>+142%</strong></li>
+            <li><span>여행</span><strong>+119%</strong></li>
+            <li><span>푸드</span><strong>+96%</strong></li>
+          </ul>
+        </aside>
+      </section>
+    </header>
+
+    <main class="dashboard">
+      <section class="section-heading">
+        <div>
+          <p class="section-kicker">LIVE SIGNALS</p>
+          <h2>지금 사람들의 반응이 빠르게 모이는 트렌드</h2>
+        </div>
+        <div class="filter-row" id="categoryFilters"></div>
+      </section>
+
+      <section class="trend-grid" id="trendGrid"></section>
+
+      <section class="insight-layout">
+        <article class="panel timeline-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="section-kicker">WHY NOW</p>
+              <h3>트렌드가 뜨는 패턴</h3>
+            </div>
+          </div>
+          <div class="timeline" id="timelineList"></div>
+        </article>
+
+        <article class="panel watchlist-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="section-kicker">WATCHLIST</p>
+              <h3>예비 급상승 키워드</h3>
+            </div>
+          </div>
+          <ul class="watchlist" id="watchlist"></ul>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
