@@ -8,7 +8,10 @@ function requireEnv(name: string) {
   return value;
 }
 
+export function hasDatabaseUrl() {
+  return Boolean(process.env.DATABASE_URL);
+}
+
 export function getDatabaseUrl() {
   return requireEnv("DATABASE_URL");
 }
-

@@ -6,8 +6,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "db:generate": "drizzle-kit generate",
-    "db:push": "drizzle-kit push"
+    "db:generate": "drizzle-kit generate --config=drizzle.config.mjs",
+    "db:push": "drizzle-kit push --config=drizzle.config.mjs",
+    "db:setup": "node scripts/db-setup.mjs",
+    "db:seed": "node scripts/db-seed.mjs",
+    "db:check": "node scripts/db-check.mjs"
   },
   "dependencies": {
     "drizzle-orm": "^0.45.2",

@@ -1,6 +1,4 @@
-import { defineConfig } from "drizzle-kit";
-
-export default defineConfig({
+const config = {
   schema: "./db/schema.ts",
   out: "./drizzle",
   dialect: "postgresql",
@@ -9,5 +7,6 @@ export default defineConfig({
   },
   verbose: true,
   strict: true,
-});
+};
 
+export default config;
