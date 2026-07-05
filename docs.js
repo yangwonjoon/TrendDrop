@@ -5,6 +5,12 @@ const docs = [
     description: "해외/국내 사례, 차별점, MVP 우선순위를 정리한 리서치 문서",
     path: "docs/trend-services-research.md",
   },
+  {
+    id: "google-api-research",
+    title: "Google API 조사",
+    description: "TrendDrop에 맞는 Google 계열 API 후보, 쿼터, 트래픽, 리스크를 정리한 문서",
+    path: "docs/google-api-research.md",
+  },
 ];
 
 const docList = document.getElementById("docList");
