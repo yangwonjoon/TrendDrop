@@ -1,0 +1,32 @@
+{
+  "name": "trenddrop",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "db:generate": "drizzle-kit generate --config=drizzle.config.mjs",
+    "db:push": "drizzle-kit push --config=drizzle.config.mjs",
+    "db:setup": "node scripts/db-setup.mjs",
+    "db:seed": "node scripts/db-seed.mjs",
+    "db:check": "node scripts/db-check.mjs"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.45.2",
+    "next": "^16.2.10",
+    "postgres": "^3.4.9",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "react-markdown": "^10.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.0",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "drizzle-kit": "^0.31.10",
+    "eslint": "^9.39.4",
+    "eslint-config-next": "^16.2.10",
+    "typescript": "^6.0.3"
+  }
+}
