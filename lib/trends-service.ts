@@ -32,13 +32,12 @@ export async function getTrendFeed(category?: string) {
       score: trendSnapshots.score,
       capturedAt: trendSnapshots.capturedAt,
       sourceName: sources.name,
+      sourceUrl: trendSnapshots.sourceUrl,
     })
     .from(trendSnapshots)
     .innerJoin(keywords, eq(trendSnapshots.keywordId, keywords.id))
     .leftJoin(sources, eq(keywords.sourceId, sources.id))
-    .where(
-      category && category !== "전체" ? eq(keywords.category, category) : sql`true`
-    )
+    .where(category && category !== "전체" ? eq(keywords.category, category) : sql`true`)
     .orderBy(desc(trendSnapshots.capturedAt), desc(trendSnapshots.score))
     .limit(30);
 
@@ -52,6 +51,7 @@ export async function getTrendFeed(category?: string) {
       source: row.source ?? row.sourceName ?? "Unknown",
       summary: row.summary ?? "",
       reason: row.reason ?? "",
+      sourceUrl: row.sourceUrl ?? "",
     })),
     meta: {
       source: "neon",

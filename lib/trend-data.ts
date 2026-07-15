@@ -7,6 +7,7 @@ export type TrendItem = {
   source: string;
   summary: string;
   reason: string;
+  sourceUrl?: string;
 };
 
 export type TimelineStep = {
@@ -116,4 +117,3 @@ export const watchItems: WatchItem[] = [
 ];
 
 export const categories = ["전체", ...new Set(trends.map((trend) => trend.category))];
-

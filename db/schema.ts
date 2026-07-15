@@ -43,6 +43,7 @@ export const trendSnapshots = pgTable("trend_snapshots", {
   summary: text("summary"),
   reason: text("reason"),
   sourceLabel: varchar("source_label", { length: 200 }),
+  externalRef: varchar("external_ref", { length: 120 }),
+  sourceUrl: varchar("source_url", { length: 500 }),
   capturedAt: timestamp("captured_at", { withTimezone: true }).defaultNow().notNull(),
 });
-

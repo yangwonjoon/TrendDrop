@@ -12,37 +12,43 @@ export const docs: DocEntry[] = [
   {
     slug: "trend-services-research",
     title: "트렌드 서비스 조사",
-    description: "해외/국내 사례, 차별점, MVP 우선순위를 정리한 리서치 문서",
+    description: "해외·국내 트렌드 서비스 특징과 차별화 포인트를 정리한 문서",
     filePath: "trend-services-research.md",
   },
   {
     slug: "google-api-research",
-    title: "Google API 조사",
-    description: "TrendDrop에 맞는 Google 계열 API 후보, 쿼터, 트래픽, 리스크를 정리한 문서",
+    title: "Google 트렌드 소스 정리",
+    description: "TrendDrop 외부 트렌드 수집에 실제로 쓸 Google 계열 소스를 정리한 문서",
     filePath: "google-api-research.md",
+  },
+  {
+    slug: "google-api-setup",
+    title: "Google 수집 소스 세팅",
+    description: "YouTube Data API와 Google News RSS 기준의 MVP 세팅 문서",
+    filePath: "google-api-setup.md",
   },
   {
     slug: "tiktok-api-research",
     title: "TikTok API 조사",
-    description: "TikTok 공식/서드파티 API의 접근 가능성, 트렌드 데이터 경로, 비용과 리스크를 정리한 문서",
+    description: "TikTok 공식 API의 활용 가능 범위와 비용/제약을 정리한 문서",
     filePath: "tiktok-api-research.md",
   },
   {
     slug: "prior-research-review",
-    title: "사전조사 리뷰",
-    description: "이전 작업자의 조사 방식에 대한 리뷰 — 잘한 점, 공백, 다음 조사 우선순위 제안",
+    title: "사전 조사 리뷰",
+    description: "이전 조사 결과의 공백과 다음 조사 우선순위를 검토한 문서",
     filePath: "prior-research-review.md",
   },
   {
     slug: "naver-api-research",
     title: "Naver API 조사",
-    description: "네이버 데이터랩/검색광고/검색 API의 트렌드 활용 가능성, 쿼터, 약관 리스크를 정리한 문서",
+    description: "네이버 검색광고·검색 API 기반 트렌드 활용 가능성을 정리한 문서",
     filePath: "naver-api-research.md",
   },
   {
     slug: "kakao-bigkinds-research",
-    title: "Kakao/BigKinds 조사",
-    description: "카카오 계열 데이터 소스와 빅카인즈 Open API의 접근 가능성, 뉴스 맥락 대안을 정리한 문서",
+    title: "Kakao·BigKinds 조사",
+    description: "카카오 계열 데이터와 BigKinds Open API 활용 가능성을 정리한 문서",
     filePath: "kakao-bigkinds-research.md",
   },
 ];
@@ -72,4 +78,3 @@ export async function readDocContent(slug: string) {
     content,
   };
 }
-
