@@ -15,3 +15,11 @@ export function hasDatabaseUrl() {
 export function getDatabaseUrl() {
   return requireEnv("DATABASE_URL");
 }
+
+export function hasYoutubeApiKey() {
+  return Boolean(process.env.YOUTUBE_API_KEY);
+}
+
+export function getYoutubeApiKey() {
+  return requireEnv("YOUTUBE_API_KEY");
+}

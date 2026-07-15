@@ -31,6 +31,9 @@ export default function HomePage() {
               <Link className="primary-button link-button" href="#trend-grid">
                 트렌드 둘러보기
               </Link>
+              <Link className="secondary-button link-button" href="/api-lab">
+                API 테스트 페이지
+              </Link>
               <Link className="secondary-button link-button" href="/docs/google-api-research">
                 API 조사 보기
               </Link>
@@ -181,4 +184,3 @@ export default function HomePage() {
     </div>
   );
 }
-

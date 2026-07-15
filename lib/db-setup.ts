@@ -1,28 +1,24 @@
-import postgres from "postgres";
+import { sql } from "drizzle-orm";
 
-const databaseUrl = process.env.DATABASE_URL;
+import { getDb, isDbConfigured } from "@/db";
 
-if (!databaseUrl) {
-  console.error("DATABASE_URL is not configured");
-  process.exit(1);
-}
+export async function ensureDatabaseTables() {
+  if (!isDbConfigured()) {
+    throw new Error("DATABASE_URL is not configured");
+  }
 
-const sql = postgres(databaseUrl, {
-  prepare: false,
-  max: 1,
-});
+  const db = getDb();
 
-try {
-  await sql`
+  await db.execute(sql`
     create table if not exists sources (
       id integer generated always as identity primary key,
       name varchar(80) not null unique,
       kind varchar(40) not null,
       created_at timestamptz not null default now()
     );
-  `;
+  `);
 
-  await sql`
+  await db.execute(sql`
     create table if not exists keywords (
       id integer generated always as identity primary key,
       term varchar(160) not null unique,
@@ -30,9 +26,9 @@ try {
       source_id integer references sources(id),
       created_at timestamptz not null default now()
     );
-  `;
+  `);
 
-  await sql`
+  await db.execute(sql`
     create table if not exists trend_snapshots (
       id integer generated always as identity primary key,
       keyword_id integer not null references keywords(id),
@@ -46,23 +42,17 @@ try {
       source_url varchar(500),
       captured_at timestamptz not null default now()
     );
-  `;
+  `);
 
-  await sql`
+  await db.execute(sql`
     alter table trend_snapshots
     add column if not exists external_ref varchar(120);
-  `;
+  `);
 
-  await sql`
+  await db.execute(sql`
     alter table trend_snapshots
     add column if not exists source_url varchar(500);
-  `;
+  `);
 
-  console.log("Database tables created or already present");
-} catch (error) {
-  console.error("Database setup failed");
-  console.error(error);
-  process.exitCode = 1;
-} finally {
-  await sql.end();
+  return { ok: true };
 }
