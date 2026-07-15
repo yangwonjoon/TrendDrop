@@ -14,9 +14,14 @@ export default function HomePage() {
               <p className="brand-sub">Social spike tracker</p>
             </div>
           </div>
-          <Link className="ghost-button link-button" href="/docs">
-            리서치 문서 보기
-          </Link>
+          <div className="link-cluster" style={{ gap: 12 }}>
+            <Link className="ghost-button link-button" href="/docs">
+              리서치 문서 보기
+            </Link>
+            <Link className="ghost-button link-button" href="/trend">
+              디자인 시안
+            </Link>
+          </div>
         </nav>
 
         <section className="hero-grid">
