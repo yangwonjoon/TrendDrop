@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 
+import ThemeToggle from "@/app/theme-toggle";
 import { getDocList, readDocContent } from "@/lib/docs";
 
 export async function generateStaticParams() {
@@ -38,6 +39,7 @@ export default async function DocDetailPage({
             <Link className="ghost-button link-button" href="/">
               홈으로 돌아가기
             </Link>
+            <ThemeToggle />
           </div>
         </nav>
       </header>

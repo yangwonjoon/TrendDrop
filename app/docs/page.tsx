@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import ThemeToggle from "@/app/theme-toggle";
 import { getDocList } from "@/lib/docs";
 
 export default function DocsIndexPage() {
@@ -16,9 +17,12 @@ export default function DocsIndexPage() {
               <p className="brand-sub">Research library</p>
             </div>
           </div>
-          <Link className="ghost-button link-button" href="/">
-            홈으로 돌아가기
-          </Link>
+          <div className="link-cluster">
+            <Link className="ghost-button link-button" href="/">
+              홈으로 돌아가기
+            </Link>
+            <ThemeToggle />
+          </div>
         </nav>
 
         <section className="hero-grid docs-hero-grid">

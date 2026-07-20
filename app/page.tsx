@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import ThemeToggle from "@/app/theme-toggle";
 import { categories, timelineSteps, trends, watchItems } from "@/lib/trend-data";
 
 export default function HomePage() {
@@ -14,13 +15,14 @@ export default function HomePage() {
               <p className="brand-sub">Social spike tracker</p>
             </div>
           </div>
-          <div className="link-cluster" style={{ gap: 12 }}>
+          <div className="link-cluster">
             <Link className="ghost-button link-button" href="/docs">
               리서치 문서 보기
             </Link>
             <Link className="ghost-button link-button" href="/trend">
-              디자인 시안
+              트렌드 상세
             </Link>
+            <ThemeToggle />
           </div>
         </nav>
 
