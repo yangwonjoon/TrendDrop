@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 
+import { categories } from "@/lib/trend-data";
+import { getDocList } from "@/lib/docs";
+
 import AppNav from "./app-nav";
+import CommandPalette from "./command-palette";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -16,6 +20,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // filePath는 클라이언트로 내보내지 않는다.
+  const paletteDocs = getDocList().map(({ slug, title, description }) => ({
+    slug,
+    title,
+    description,
+  }));
+
   return (
     <html lang="ko" data-theme="dark" suppressHydrationWarning>
       <head>
@@ -24,6 +35,8 @@ export default function RootLayout({
       <body>
         <AppNav />
         {children}
+        {/* getDocList()는 fs를 쓰는 서버 전용이라 여기서 호출해 props로 내려준다. */}
+        <CommandPalette docs={paletteDocs} categories={categories} />
       </body>
     </html>
   );

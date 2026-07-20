@@ -38,6 +38,7 @@
     0 0 0 1px rgba(61, 220, 132, 0.15);
   --glow-line: rgba(61, 220, 132, 0.4);
   --header-bg: rgba(11, 14, 20, 0.78);
+  --scrim: rgba(0, 0, 0, 0.62);
 
   --radius-lg: 28px;
   --radius-md: 22px;
@@ -92,6 +93,7 @@
   --shadow-hover: 0 24px 60px rgba(64, 38, 20, 0.2);
   --glow-line: rgba(255, 107, 44, 0.35);
   --header-bg: rgba(247, 240, 230, 0.82);
+  --scrim: rgba(64, 38, 20, 0.42);
 
   --code-bg: #21170f;
   --code-text: #f9f0e3;
@@ -229,6 +231,233 @@ code {
   margin-right: auto;
 }
 
+/* 헤더 검색 버튼 (⌘K) */
+.header-search {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface-soft);
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.86rem;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.header-search:hover {
+  color: var(--text);
+  border-color: var(--glow-line);
+}
+
+.header-search:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.header-search-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.header-search-kbd {
+  padding: 2px 6px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface-inset);
+  font-family: var(--font-num);
+  font-size: 0.7rem;
+}
+
+/* 커맨드 팔레트 */
+.cmdk-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  justify-content: center;
+  padding: 12vh 16px 16px;
+  background: var(--scrim);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: cmdk-fade 0.16s ease-out;
+}
+
+@keyframes cmdk-fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.cmdk-panel {
+  display: flex;
+  flex-direction: column;
+  width: min(560px, 100%);
+  max-height: 70vh;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: var(--shadow-hover);
+  animation: cmdk-pop 0.2s var(--spring);
+}
+
+@keyframes cmdk-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.97) translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.cmdk-input-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.cmdk-input-icon {
+  font-size: 1.1rem;
+  color: var(--muted);
+}
+
+.cmdk-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 1rem;
+  outline: none;
+}
+
+.cmdk-input::placeholder {
+  color: var(--muted);
+}
+
+.cmdk-close {
+  flex: none;
+  padding: 4px 8px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface-inset);
+  color: var(--muted);
+  font: inherit;
+  font-family: var(--font-num);
+  font-size: 0.7rem;
+  cursor: pointer;
+}
+
+.cmdk-close:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.cmdk-list {
+  flex: 1;
+  overflow-y: auto;
+  list-style: none;
+  margin: 0;
+  padding: 8px;
+}
+
+.cmdk-item-wrap {
+  list-style: none;
+}
+
+.cmdk-group {
+  margin: 10px 8px 4px;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: var(--label-spacing);
+  text-transform: var(--label-transform);
+  color: var(--muted);
+}
+
+.cmdk-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.cmdk-item.is-active {
+  background: var(--accent-soft);
+}
+
+.cmdk-rank {
+  flex: none;
+  min-width: 22px;
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  color: var(--accent);
+  text-align: center;
+}
+
+.cmdk-icon {
+  flex: none;
+  min-width: 22px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.cmdk-label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cmdk-meta {
+  flex: none;
+  font-size: 0.72rem;
+  color: var(--muted);
+  letter-spacing: var(--label-spacing);
+  text-transform: var(--label-transform);
+}
+
+.cmdk-empty {
+  margin: 0;
+  padding: 34px 16px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.cmdk-footer {
+  display: flex;
+  gap: 16px;
+  padding: 10px 16px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+
+.cmdk-footer kbd {
+  padding: 1px 5px;
+  margin-right: 3px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--surface-inset);
+  font-family: var(--font-num);
+}
+
 .app-brand-text {
   display: flex;
   flex-direction: column;
@@ -322,19 +551,6 @@ code {
   font-family: var(--font-head);
   font-size: clamp(1.7rem, 3.4vw, 2.4rem);
   line-height: 1.1;
-}
-
-.live-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 5px 11px;
-  border-radius: 999px;
-  background: var(--accent-soft);
-  color: var(--accent);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: var(--label-spacing);
 }
 
 .live-dot {
@@ -434,6 +650,175 @@ code {
   to {
     transform: scaleX(1);
   }
+}
+
+/* 과거 시점을 보는 중 배너 */
+.past-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.past-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: var(--accent-2-soft);
+  color: var(--accent-3);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: var(--label-spacing);
+}
+
+.past-now {
+  padding: 5px 12px;
+  border: 1px solid var(--glow-line);
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font: inherit;
+  font-size: 0.74rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.past-now:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* 타임머신 스크러버 */
+.timemachine {
+  display: grid;
+  gap: 6px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface-soft);
+}
+
+.tm-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tm-play {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.tm-play.is-playing {
+  background: var(--accent-soft);
+  border-color: var(--glow-line);
+  color: var(--accent);
+}
+
+.tm-play:focus-visible,
+.tm-range:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* 네이티브 range를 토큰으로 스타일링 (접근성·키보드는 브라우저 기본 동작 유지) */
+.tm-range {
+  flex: 1;
+  min-width: 0;
+  height: 18px;
+  margin: 0;
+  background: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+.tm-range::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--surface-inset);
+}
+
+.tm-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  margin-top: -5.5px;
+  border: 2px solid var(--surface);
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.tm-range::-moz-range-track {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--surface-inset);
+}
+
+.tm-range::-moz-range-thumb {
+  width: 15px;
+  height: 15px;
+  border: 2px solid var(--surface);
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.tm-label {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+  min-width: 74px;
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+}
+
+.tm-clock {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.tm-ago {
+  font-size: 0.68rem;
+  color: var(--muted);
+}
+
+.tm-ticks {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 8px;
+}
+
+.tm-tick {
+  width: 2px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--line-strong);
+}
+
+.tm-tick.is-latest {
+  background: var(--accent);
+}
+
+.tm-tick.is-active {
+  background: var(--accent);
+  height: 9px;
 }
 
 /* 라이브 티커 */
@@ -1327,5 +1712,19 @@ h3 {
 
   .rank-num.is-top {
     font-size: 1.2rem;
+  }
+
+  /* 모바일 헤더에서는 검색을 아이콘만으로 */
+  .header-search-text,
+  .header-search-kbd {
+    display: none;
+  }
+
+  .header-search {
+    padding: 8px 10px;
+  }
+
+  .cmdk-overlay {
+    padding: 8vh 12px 12px;
   }
 }

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 
+import { COMMAND_OPEN_EVENT } from "./command-palette";
 import ThemeToggle from "./theme-toggle";
 
 type NavItem = {
@@ -73,6 +74,22 @@ export default function AppNav() {
               <span className="brand-sub">실시간 트렌드</span>
             </span>
           </Link>
+
+          <button
+            type="button"
+            className="header-search"
+            onClick={() => window.dispatchEvent(new Event(COMMAND_OPEN_EVENT))}
+            aria-label="검색 열기"
+            aria-keyshortcuts="Meta+K Control+K"
+          >
+            <span className="header-search-icon" aria-hidden="true">
+              ⌕
+            </span>
+            <span className="header-search-text">검색</span>
+            <kbd className="header-search-kbd" aria-hidden="true">
+              ⌘K
+            </kbd>
+          </button>
 
           <ThemeToggle />
         </div>

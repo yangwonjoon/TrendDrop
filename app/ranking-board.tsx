@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
+import { CATEGORY_EVENT, PENDING_CATEGORY_KEY } from "@/app/command-palette";
 import RollingNumber from "@/app/rolling-number";
 import { getRankDelta, type TrendItem } from "@/lib/trend-data";
 import { getTickerItems, snapshots } from "@/lib/trend-timeline";
@@ -30,6 +31,7 @@ const PERIODS: { id: Period; label: string }[] = [
 ];
 
 const LIVE_INTERVAL_MS = 8000;
+const PLAY_INTERVAL_MS = 1200;
 const FLIP_MS = 520;
 const FLIP_EASING = "cubic-bezier(0.34, 1.56, 0.64, 1)";
 const PULL_THRESHOLD = 70;
@@ -123,7 +125,7 @@ function DeltaBadge({ item }: { item: Row }) {
       <span className="rank-delta is-up">
         <span aria-hidden="true">▲</span>
         {delta.diff}
-        <span className="sr-only">계단 상승</span>
+        <span className="sr-only">단계 상승</span>
       </span>
     );
   }
@@ -132,7 +134,7 @@ function DeltaBadge({ item }: { item: Row }) {
       <span className="rank-delta is-down">
         <span aria-hidden="true">▼</span>
         {delta.diff}
-        <span className="sr-only">계단 하락</span>
+        <span className="sr-only">단계 하락</span>
       </span>
     );
   }
@@ -149,6 +151,7 @@ export default function RankingBoard({ daily, categories }: Props) {
   const [category, setCategory] = useState<string>("전체");
   const [snapshotIndex, setSnapshotIndex] = useState<number>(LATEST_INDEX);
   const [live, setLive] = useState(true);
+  const [playing, setPlaying] = useState(false);
   const [pull, setPull] = useState(0);
 
   const containerRef = useRef<HTMLElement | null>(null);
@@ -191,6 +194,45 @@ export default function RankingBoard({ daily, categories }: Props) {
     const timer = window.setInterval(advance, LIVE_INTERVAL_MS);
     return () => window.clearInterval(timer);
   }, [live, isRealtime, advance]);
+
+  /* --- 타임랩스 재생: 현재 지점부터 1.2초 간격으로 진행, 최신에 닿으면 자동 정지 --- */
+  useEffect(() => {
+    if (!playing || !isRealtime) return;
+
+    const timer = window.setTimeout(() => {
+      const next = snapshotIndex + 1;
+      setSnapshotIndex(Math.min(next, LATEST_INDEX));
+      if (next >= LATEST_INDEX) setPlaying(false);
+    }, PLAY_INTERVAL_MS);
+
+    return () => window.clearTimeout(timer);
+  }, [playing, isRealtime, snapshotIndex]);
+
+  /* --- 커맨드 팔레트에서 고른 카테고리 수신 (useSearchParams 대신 커스텀 이벤트) --- */
+  useEffect(() => {
+    const onCategory = (event: Event) => {
+      const detail = (event as CustomEvent<string>).detail;
+      if (typeof detail === "string" && categories.includes(detail)) setCategory(detail);
+    };
+
+    window.addEventListener(CATEGORY_EVENT, onCategory);
+    return () => window.removeEventListener(CATEGORY_EVENT, onCategory);
+  }, [categories]);
+
+  /* --- 다른 페이지에서 넘어온 경우: 보관해 둔 카테고리를 마운트 후 적용 --- */
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      try {
+        const pending = sessionStorage.getItem(PENDING_CATEGORY_KEY);
+        if (!pending) return;
+        sessionStorage.removeItem(PENDING_CATEGORY_KEY);
+        if (categories.includes(pending)) setCategory(pending);
+      } catch {
+        // sessionStorage를 못 쓰면 필터 없이 그대로 둔다.
+      }
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [categories]);
 
   /* --- FLIP: 이전 위치 → 새 위치로 미끄러지듯 이동 --- */
   useIsomorphicLayoutEffect(() => {
@@ -326,6 +368,45 @@ export default function RankingBoard({ daily, categories }: Props) {
   }, [isRealtime, advance]);
 
   const pullReady = pull >= PULL_THRESHOLD;
+  // LIVE로 순환 중일 때는 "과거"가 아니라 실시간 피드로 본다.
+  const viewingPast = isRealtime && !live && snapshotIndex !== LATEST_INDEX;
+
+  /* --- 타임머신 ↔ LIVE 상호작용 규칙 --- */
+
+  // 스크럽은 사용자 의도가 명확하므로 LIVE와 재생을 모두 끈다.
+  const handleScrub = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSnapshotIndex(Number(event.target.value));
+    setLive(false);
+    setPlaying(false);
+  };
+
+  // 재생은 "과거 재생", LIVE는 "실시간 갱신" — 동시에 켜지지 않는다.
+  const handlePlayToggle = () => {
+    if (playing) {
+      setPlaying(false);
+      return;
+    }
+    setLive(false);
+    if (snapshotIndex >= LATEST_INDEX) setSnapshotIndex(0);
+    setPlaying(true);
+  };
+
+  // LIVE를 켜면 최신 시점으로 돌아온다(과거를 보며 실시간이라 표시하지 않도록).
+  const handleLiveToggle = () => {
+    if (live) {
+      setLive(false);
+      return;
+    }
+    setPlaying(false);
+    setSnapshotIndex(LATEST_INDEX);
+    setLive(true);
+  };
+
+  const handleJumpToNow = () => {
+    setPlaying(false);
+    setSnapshotIndex(LATEST_INDEX);
+    setLive(true);
+  };
 
   return (
     <section className="board" aria-labelledby="board-title" ref={containerRef}>
@@ -350,9 +431,9 @@ export default function RankingBoard({ daily, categories }: Props) {
             type="button"
             className={`live-toggle${live && isRealtime ? " is-on" : ""}`}
             aria-pressed={live && isRealtime}
-            onClick={() => setLive((value) => !value)}
+            onClick={handleLiveToggle}
             disabled={!isRealtime}
-            title={isRealtime ? "자동 갱신 켜기/끄기" : "24시간 집계는 자동 갱신을 쓰지 않습니다"}
+            title={isRealtime ? "실시간 갱신 켜기/끄기" : "24시간 집계는 자동 갱신을 쓰지 않습니다"}
           >
             <span className="live-dot" aria-hidden="true" />
             LIVE
@@ -370,7 +451,7 @@ export default function RankingBoard({ daily, categories }: Props) {
               <span className="board-sep" aria-hidden="true">
                 ·
               </span>
-              {live ? "방금 갱신" : "일시정지"}
+              {live ? "방금 갱신" : playing ? "과거 재생 중" : "일시정지"}
             </>
           ) : (
             "24시간 누적 집계"
@@ -383,7 +464,61 @@ export default function RankingBoard({ daily, categories }: Props) {
             <span className="live-progress-fill" />
           </div>
         )}
+
+        {viewingPast && (
+          <div className="past-banner">
+            <span className="past-badge">과거 보기 · {snapshot.label}</span>
+            <button type="button" className="past-now" onClick={handleJumpToNow}>
+              지금으로
+            </button>
+          </div>
+        )}
       </div>
+
+      {/* 타임머신 스크러버 — 실시간 모드에서만 */}
+      {isRealtime && (
+        <div className="timemachine">
+          <div className="tm-row">
+            <button
+              type="button"
+              className={`tm-play${playing ? " is-playing" : ""}`}
+              onClick={handlePlayToggle}
+              aria-pressed={playing}
+              aria-label={playing ? "타임랩스 정지" : "타임랩스 재생"}
+            >
+              <span aria-hidden="true">{playing ? "⏸" : "▶"}</span>
+            </button>
+
+            <input
+              type="range"
+              className="tm-range"
+              min={0}
+              max={LATEST_INDEX}
+              step={1}
+              value={snapshotIndex}
+              onChange={handleScrub}
+              aria-label="시간 이동"
+              aria-valuetext={`${snapshot.clock} · ${snapshot.label}`}
+            />
+
+            <span className="tm-label">
+              <span className="tm-clock">{snapshot.clock}</span>
+              <span className="tm-ago">{snapshot.label}</span>
+            </span>
+          </div>
+
+          <div className="tm-ticks" aria-hidden="true">
+            {snapshots.map((entry, index) => (
+              <span
+                key={entry.id}
+                className={`tm-tick${index === snapshotIndex ? " is-active" : ""}${
+                  index === LATEST_INDEX ? " is-latest" : ""
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+      )}
 
       {isRealtime && tickerItems.length > 0 && (
         <div className="ticker" aria-label="실시간 하이라이트">
