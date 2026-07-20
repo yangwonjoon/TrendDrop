@@ -1,6 +1,5 @@
 import Link from "next/link";
 
-import ThemeToggle from "@/app/theme-toggle";
 import { getDocList } from "@/lib/docs";
 
 export default function DocsIndexPage() {
@@ -9,22 +8,6 @@ export default function DocsIndexPage() {
   return (
     <div className="page-shell">
       <header className="hero docs-hero">
-        <nav className="topbar">
-          <div className="brand">
-            <span className="brand-mark">TD</span>
-            <div>
-              <p className="brand-name">TrendDrop</p>
-              <p className="brand-sub">Research library</p>
-            </div>
-          </div>
-          <div className="link-cluster">
-            <Link className="ghost-button link-button" href="/">
-              홈으로 돌아가기
-            </Link>
-            <ThemeToggle />
-          </div>
-        </nav>
-
         <section className="hero-grid docs-hero-grid">
           <div className="hero-copy">
             <p className="eyebrow">PROJECT NOTES</p>

@@ -17,7 +17,6 @@
   --td-panel-pad: 30px;
   --td-hero-gap: clamp(48px, 6vw, 76px);
 
-  min-height: 100vh;
   color: var(--text);
 }
 
@@ -48,7 +47,7 @@
 }
 
 .td-content {
-  width: min(1040px, calc(100% - 40px));
+  width: min(var(--app-w), calc(100% - 32px));
   margin: 0 auto;
   padding: var(--td-page-top) 0 var(--td-page-bottom);
   animation: td-pop 0.44s var(--spring) both;
@@ -62,10 +61,6 @@
   gap: 14px;
   margin-bottom: 40px;
   font-size: 0.85rem;
-}
-
-.td-topbar-actions {
-  margin-left: auto;
 }
 
 .td-back {
@@ -125,7 +120,8 @@
 
 .td-metrics {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  /* 720px 컬럼에서 4열, 더 좁아지면 자동으로 줄바꿈된다 */
+  grid-template-columns: repeat(auto-fit, minmax(148px, 1fr));
   gap: 14px;
   margin-bottom: 48px;
 }
@@ -463,11 +459,6 @@
   .td-topbar {
     flex-wrap: wrap;
     margin-bottom: 28px;
-  }
-
-  .td-topbar-actions {
-    margin-left: 0;
-    width: 100%;
   }
 
   .td-metrics {

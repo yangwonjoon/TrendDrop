@@ -1,7 +1,5 @@
 import Link from "next/link";
 
-import ThemeToggle from "@/app/theme-toggle";
-
 import "./trend.css";
 
 type Reason = {
@@ -154,9 +152,6 @@ export default function TrendDetailPage() {
           </Link>
           <span className="td-rank">#{trend.rank}</span>
           <span className="td-tag">{trend.category}</span>
-          <div className="td-topbar-actions">
-            <ThemeToggle />
-          </div>
         </div>
 
         <section className="td-hero">
