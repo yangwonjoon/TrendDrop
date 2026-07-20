@@ -1,22 +1,11 @@
 import RankingBoard from "@/app/ranking-board";
-import {
-  categories,
-  dailyTrends,
-  lastUpdatedLabel,
-  realtimeTrends,
-  watchItems,
-} from "@/lib/trend-data";
+import { categories, dailyTrends, watchItems } from "@/lib/trend-data";
 
 export default function HomePage() {
   return (
     <div className="page-shell">
       <main className="app-main">
-        <RankingBoard
-          realtime={realtimeTrends}
-          daily={dailyTrends}
-          categories={categories}
-          updatedLabel={lastUpdatedLabel}
-        />
+        <RankingBoard daily={dailyTrends} categories={categories} />
 
         <section className="panel watchlist-panel">
           <div className="panel-heading">
