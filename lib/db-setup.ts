@@ -45,6 +45,20 @@ export async function ensureDatabaseTables() {
   `);
 
   await db.execute(sql`
+    create table if not exists trend_contents (
+      id integer generated always as identity primary key,
+      keyword_id integer not null references keywords(id),
+      kind varchar(32) not null,
+      title text not null,
+      url varchar(500) not null,
+      source varchar(160),
+      rank integer,
+      published_at timestamptz,
+      created_at timestamptz not null default now()
+    );
+  `);
+
+  await db.execute(sql`
     alter table trend_snapshots
     add column if not exists external_ref varchar(120);
   `);

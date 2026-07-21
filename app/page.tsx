@@ -1,8 +1,10 @@
 import Link from "next/link";
 
-import { categories, timelineSteps, trends, watchItems } from "@/lib/trend-data";
+import { categories, timelineSteps, watchItems } from "@/lib/trend-data";
+import { getTrendFeed } from "@/lib/trends-service";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const { data: trends } = await getTrendFeed();
   return (
     <div className="page-shell">
       <header className="hero">
