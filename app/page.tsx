@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { categories, timelineSteps, watchItems } from "@/lib/trend-data";
 import { getTrendFeed } from "@/lib/trends-service";
+import CollectionControls from "@/components/collection-controls";
 
 export default async function HomePage() {
   const { data: trends } = await getTrendFeed();
@@ -70,6 +71,7 @@ export default async function HomePage() {
       </header>
 
       <main className="dashboard">
+        <CollectionControls />
         <section className="section-heading">
           <div>
             <p className="section-kicker">LIVE SIGNALS</p>
