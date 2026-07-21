@@ -58,6 +58,14 @@ export async function ensureDatabaseTables() {
     );
   `);
 
+  await db.execute(sql`alter table trend_contents add column if not exists kind varchar(32) not null default 'unknown';`);
+  await db.execute(sql`alter table trend_contents add column if not exists title text not null default '';`);
+  await db.execute(sql`alter table trend_contents add column if not exists url varchar(500) not null default '';`);
+  await db.execute(sql`alter table trend_contents add column if not exists source varchar(160);`);
+  await db.execute(sql`alter table trend_contents add column if not exists rank integer;`);
+  await db.execute(sql`alter table trend_contents add column if not exists published_at timestamptz;`);
+  await db.execute(sql`alter table trend_contents add column if not exists created_at timestamptz not null default now();`);
+
   await db.execute(sql`
     alter table trend_snapshots
     add column if not exists external_ref varchar(120);
