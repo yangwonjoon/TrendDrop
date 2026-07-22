@@ -1,8 +1,11 @@
 import Link from "next/link";
 
-import { categories, timelineSteps, trends, watchItems } from "@/lib/trend-data";
+import { categories, timelineSteps, watchItems } from "@/lib/trend-data";
+import { getTrendFeed } from "@/lib/trends-service";
+import CollectionControls from "@/components/collection-controls";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const { data: trends } = await getTrendFeed();
   return (
     <div className="page-shell">
       <header className="hero">
@@ -68,6 +71,7 @@ export default function HomePage() {
       </header>
 
       <main className="dashboard">
+        <CollectionControls />
         <section className="section-heading">
           <div>
             <p className="section-kicker">LIVE SIGNALS</p>
